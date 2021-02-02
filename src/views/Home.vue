@@ -1,11 +1,25 @@
 <template>
   <div class="home">
-    Home
+    <div v-if="projects.length">
+      <div v-for="project in projects" :key="project.id">
+        <p>{{ project.title }}</p>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-
+  data(){
+    return {
+      projects: []
+    }
+  },
+  mounted(){
+    fetch('http://localhost:3000/projects')
+    .then(res => res.json())
+    .then(data => this.projects = data)
+    .catch(error => console.log(error))
+  }
 }
 </script>
