@@ -1,11 +1,11 @@
 <template>
-  <div class="single-project">
+  <div class="single-project" :class="{ complete: project.complete }">
     <div class="title">
       <h3 @click="showDetails = !showDetails">{{ project.title }}</h3>
       <div class="icons">
         <span class="material-icons">edit</span>
         <span @click="handleDelete" class="material-icons">delete</span>
-        <span class="material-icons">done</span>
+        <span @click="handleDone" class="material-icons">done</span>
       </div>
     </div>
     <div v-if="showDetails" class="details">
@@ -27,6 +27,15 @@ export default {
     handleDelete(){
       fetch(this.url, { method: 'DELETE' })
       .then(() => this.$emit('delete', this.project.id))
+      .catch(error => console.log(error.message))
+    },
+    handleDone(){
+      fetch(this.url, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ complete: !this.project.complete })
+      })
+      .then(() => this.$emit('complete', this.project.id))
       .catch(error => console.log(error.message))
     }
   }
@@ -58,5 +67,9 @@ export default {
   }
   .material-icons:hover {
     color: #777;
+  }
+  /* completed projects */
+  .single-project.complete {
+    border-left: 4px solid #00ce89;
   }
 </style>
