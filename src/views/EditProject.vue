@@ -3,7 +3,7 @@
     <form @submit.prevent="handleSubmit">
       <input type="text" required placeholder="title" v-model="title">
       <textarea required placeholder="details" v-model="details"></textarea>
-      <button>Update</button>
+      <button>Edit</button>
     </form>
   </div>
 </template>
