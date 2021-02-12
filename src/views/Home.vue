@@ -2,7 +2,7 @@
   <div class="home">
     <filter-nav @filterBy="status = $event" :status="status"></filter-nav>
     <div v-if="projects.length">
-      <div v-for="project in projects" :key="project.id">
+      <div v-for="project in filteredProjects" :key="project.id">
         <single-project :project="project" @delete="handleDelete" @done="handleDone"></single-project>
       </div>
     </div>
@@ -34,6 +34,17 @@ export default {
     handleDone(id){
       const project = this.projects.find(project => project.id === id)
       project.complete = !project.complete
+    }
+  },
+  computed: {
+    filteredProjects(){
+      if(this.status === 'completed'){
+        return this.projects.filter(project => project.complete)
+      }
+      if(this.status === 'ongoing'){
+        return this.projects.filter(project => !project.complete)
+      }
+      return this.projects
     }
   }
 }
