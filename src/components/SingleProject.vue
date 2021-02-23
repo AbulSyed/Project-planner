@@ -3,7 +3,7 @@
     <div class="title">
       <h3 @click="showDetails = !showDetails">{{ project.title }}</h3>
       <div class="icons">
-        <router-link :to="{ name: 'EditProject', params: { id: project.id } }">
+        <router-link :to="{ name: 'EditProject', params: { id: project._id } }">
           <span class="material-icons">edit</span>
         </router-link>
         <span @click="handleDelete" class="material-icons">delete</span>
@@ -22,13 +22,13 @@ export default {
   data(){
     return {
       showDetails: false,
-      url: `http://localhost:3000/projects/${this.project.id}`
+      url: `https://syed-project-planner.herokuapp.com/projects/${this.project._id}`
     }
   },
   methods: {
     handleDelete(){
       fetch(this.url, { method: 'DELETE' })
-      .then(() => this.$emit('delete', this.project.id))
+      .then(() => this.$emit('delete', this.project._id))
       .catch(error => console.log(error.message))
     },
     handleDone(){
@@ -37,7 +37,7 @@ export default {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ complete: !this.project.complete })
       })
-      .then(() => this.$emit('done', this.project.id))
+      .then(() => this.$emit('done', this.project._id))
       .catch(error => console.log(error.message))
     }
   }

@@ -2,7 +2,7 @@
   <div class="home">
     <filter-nav @filterBy="status = $event" :status="status"></filter-nav>
     <div v-if="projects.length">
-      <div v-for="project in filteredProjects" :key="project.id">
+      <div v-for="project in filteredProjects" :key="project._id">
         <single-project :project="project" @delete="handleDelete" @done="handleDone"></single-project>
       </div>
     </div>
@@ -22,17 +22,20 @@ export default {
     }
   },
   mounted(){
-    fetch('http://localhost:3000/projects')
+    fetch('https://syed-project-planner.herokuapp.com/projects')
     .then(res => res.json())
-    .then(data => this.projects = data)
+    .then(data => {
+      this.projects = data
+      console.log(data)
+    })
     .catch(error => console.log(error))
   },
   methods: {
     handleDelete(id){
-      this.projects = this.projects.filter(project => project.id !== id)
+      this.projects = this.projects.filter(project => project._id !== id)
     },
     handleDone(id){
-      const project = this.projects.find(project => project.id === id)
+      const project = this.projects.find(project => project._id === id)
       project.complete = !project.complete
     }
   },

@@ -15,7 +15,7 @@ export default {
     return {
       title: '',
       details: '',
-      url: `http://localhost:3000/projects/${this.id}`
+      url: `https://syed-project-planner.herokuapp.com/projects/${this.id}`
     }
   },
   mounted(){
